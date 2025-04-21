@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-const secretKey = "$piderman123";
+const secretKey = process.env.JWT_SECRET;
 
 const validateToken = async (req, res) => {
     const token = req.header("token");

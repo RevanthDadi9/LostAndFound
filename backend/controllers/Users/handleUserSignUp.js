@@ -2,7 +2,7 @@ import User from "../../models/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-const secretKey = "$piderman123";
+const secretKey = process.env.JWT_SECRET;
 
 const generateWebToken = (id) => {
     const token = jwt.sign({ id }, secretKey, {

@@ -5,7 +5,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 
-const secretKey = "$piderman123";
+const secretKey = process.env.JWT_SECRET;
 
 const generateWebToken = (id) => {
     const token = jwt.sign({ id }, secretKey, {

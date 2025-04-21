@@ -6,6 +6,7 @@ import path from "path";
 import cors from "cors";
 import userRouter from "./routes/userRoutes.js";
 import itemRouter from "./routes/itemRoutes.js";
+require('dotenv').config();
 
 const app = express();
 
