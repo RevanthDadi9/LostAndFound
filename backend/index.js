@@ -1,4 +1,4 @@
-import "./configEnv..js";
+import "./configEnv.js";
 import express from "express";
 import { PORT } from "./config.js";
 import mongoose from "mongoose";
@@ -12,10 +12,22 @@ import itemRouter from "./routes/itemRoutes.js";
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://lostandfound-frontend-v1ei.onrender.com"
+];
+
 app.use(cors({
-  origin: "https://lostandfound-frontend-v1ei.onrender.com",
-  credentials: true
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
 }));
+
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
