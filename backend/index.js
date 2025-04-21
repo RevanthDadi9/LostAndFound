@@ -13,7 +13,7 @@ import itemRouter from "./routes/itemRoutes.js";
 const app = express();
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://lostandfound-frontend-v1ei.onrender.com",
   credentials: true
 }));
 
