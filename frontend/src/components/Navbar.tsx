@@ -79,7 +79,7 @@ function Navbar() {
       const userId = localStorage.getItem("userId");
       if (!userId) return;
       try {
-        const response = await axios.get(`http://localhost:5000/user/${userId}`);
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/${userId}`);
         setImage(response.data.userData.img);
       } catch (error) {
         console.error('Error fetching details:', error);

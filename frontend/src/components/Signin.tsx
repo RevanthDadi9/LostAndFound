@@ -40,7 +40,7 @@ const Signin: React.FC = () => {
 
     const onSubmit = async (data: any) => {
         try {
-            const response = await axios.post('http://localhost:5000/user/signin', data);
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/signin`, data);
             const token = response.data.token;
             const userId = response.data.userId;
             const userName = response.data.userName;

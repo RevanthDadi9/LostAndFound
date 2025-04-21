@@ -20,7 +20,7 @@ const ProfilePage: React.FC = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get<{ userData: User }>(`http://localhost:5000/user/${userId}`);
+        const res = await axios.get<{ userData: User }>(`${import.meta.env.VITE_BACKEND_URL}/user/${userId}`);
         setUser(res.data.userData);
         form.setFieldsValue(res.data.userData);
       } catch (err) {

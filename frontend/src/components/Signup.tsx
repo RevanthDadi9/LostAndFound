@@ -52,7 +52,7 @@ const Signup: React.FC = () => {
        }
 
         try {
-            const response = await axios.post('http://localhost:5000/user/signup', formData, {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/signup`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

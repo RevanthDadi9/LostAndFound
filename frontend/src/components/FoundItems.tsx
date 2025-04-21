@@ -17,7 +17,7 @@ const FoundItems: React.FC = () => {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/item');
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/item`);
         setItems(response.data.items);
       } catch (error) {
         console.error('Error fetching items:', error);

@@ -75,7 +75,7 @@ const PostItem: React.FC = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/item/create', formData, {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/item/create`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
