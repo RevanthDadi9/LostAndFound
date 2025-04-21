@@ -2,12 +2,15 @@ import express from "express";
 import handleUserSignIn from "../controllers/Users/handleUserSignIn";
 import handleUserUpdateInfo from "../controllers/Users/handleUserUpdateInfo.js";
 import handleGetUserDetails from "../controllers/Users/handleGetUserDetails.js";
-import handleUserSignUp2, { upload } from "../controllers/Users/handle2Signup.js";
+import handleUserSignUp2 from "../controllers/Users/handleSignup2.js";
 import handleGetUserDetailsById from "../controllers/Users/handleGetUserDetailsById.js";
+import { upload } from "../cloudinaryConfig.js"
+import { uploadImage } from "../controllers/uploadController.js";
 
 const router = express.Router();
 
-router.post("/signup", upload, handleUserSignUp2);
+router.post("/signup", upload.single("image"), handleUserSignUp2);
+router.post("/upload", upload.single("image"), uploadImage);
 router.post("/signin", handleUserSignIn);
 router.put("/update/:id", handleUserUpdateInfo);
 router.get("/", handleGetUserDetails);
