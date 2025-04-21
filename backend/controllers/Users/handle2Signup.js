@@ -5,6 +5,9 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 
+console.log("JWT_SECRET is:", process.env.JWT_SECRET);
+
+
 const secretKey = process.env.JWT_SECRET;
 
 const generateWebToken = (id) => {

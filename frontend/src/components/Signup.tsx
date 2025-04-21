@@ -67,9 +67,15 @@ const Signup: React.FC = () => {
             localStorage.setItem("userImage", userImage);
             login();
             navigate('/');
-        } catch (error) {
-            console.error('Signup failed:', error);
-        }
+        } catch (error: any) {
+            if (error.response && error.response.status === 409) {
+              alert("User already exists. Please use a different email.");
+            } else {
+              console.error('Signup failed:', error);
+              alert("Signup failed. Please try again.");
+            }
+          }
+          
     };
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {

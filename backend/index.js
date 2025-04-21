@@ -1,13 +1,13 @@
+import "./configEnv..js";
 import express from "express";
-import { PORT, MongoDBURL } from "./config.js";
+import { PORT } from "./config.js";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import path from "path";
 import cors from "cors";
 import userRouter from "./routes/userRoutes.js";
 import itemRouter from "./routes/itemRoutes.js";
-import dotenv from 'dotenv';
-dotenv.config();
+
 
 
 const app = express();
@@ -27,12 +27,7 @@ app.use("/item", itemRouter);
 
 const start = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    })
-    .then(() => console.log('Connected to MongoDB'))
-    .catch(err => console.error('MongoDB connection error:', err));
+    await mongoose.connect(process.env.MONGO_URI);
     console.log("Connected to MongoDB");
 
     app.listen(PORT || 5000, () => {
