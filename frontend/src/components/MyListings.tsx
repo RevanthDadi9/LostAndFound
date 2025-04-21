@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button, Card, Typography, Input, Carousel, Space } from 'antd';
+import { Button, Card, Typography, Input, Carousel, Space, Spin } from 'antd';
 import CustomArrow from './CustomArrow';
 import { DeleteOutlined } from '@mui/icons-material';
 const { Meta } = Card;
@@ -62,7 +62,8 @@ const MyListings: React.FC = () => {
     }
   }
 
-  if (loading) return <Typography>Loading...</Typography>;
+  if (loading) return <Spin style={{ marginLeft: 600, marginTop: 200, alignItems: 'center' }} size='large' />;
+  
 
   return (
     <>
