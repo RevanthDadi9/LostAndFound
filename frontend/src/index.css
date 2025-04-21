@@ -1,0 +1,39 @@
+body, html {
+    padding: 0;
+    margin: 0;
+}
+
+
+.custom-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+  }
+   
+  .custom-arrow.left {
+    left: 10px;
+  }
+   
+  .custom-arrow.right {
+    right: 10px;
+  }
+
+  .custom-signin-btn {
+    background: linear-gradient(135deg, green, #04befe) !important;
+    color: white !important;
+    border: none !important;
+    transition: all 0.3s ease-in-out !important;
+  }
+  
+  .custom-signin-btn:hover {
+    background: linear-gradient(135deg, #04befe, green);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    transition: 2s;
+  }
