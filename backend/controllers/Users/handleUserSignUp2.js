@@ -1,8 +1,19 @@
+import User from "../../models/user.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
+const secretKey = process.env.JWT_SECRET;
+
+const generateWebToken = (id) => {
+    const token = jwt.sign({ id }, secretKey, {
+        expiresIn: "24h"
+    });
+
+    return token;
+}
+
 const handleUserSignUp2 = async (req, res) => {
     try {
-        console.log("SIGNUP REQUEST BODY:", req.body);
-        console.log("FILE:", req.file);
-
         const userData = req.body;
         const existingUser = await User.findOne({ email: userData.email });
 
@@ -13,10 +24,9 @@ const handleUserSignUp2 = async (req, res) => {
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(userData.password, salt);
 
-        const imageFile = req.file;
-        const imagePath = imageFile ? imageFile.path : "No Image";
+        const imageUrl = req.file?.path || "No Image";
 
-        const user = new User({ ...userData, password: hashedPassword, img: imagePath });
+        const user = new User({ ...userData, password: hashedPassword, img: imageUrl });
         await user.save();
 
         const token = generateWebToken(user._id);
@@ -26,10 +36,10 @@ const handleUserSignUp2 = async (req, res) => {
             token,
             userId: user._id,
             userName: user.firstname,
-            userImage: imagePath
+            userImage: imageUrl
         });
     } catch (error) {
-        console.error(" Sign-up error:", error);
+        console.error("Signup error:", error);
         res.status(500).send({ message: "Server error", error: error.message });
     }
 };
