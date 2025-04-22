@@ -128,7 +128,7 @@ const MyListings: React.FC = () => {
                   ) : userImages.length > 0 ? (
                     <img
                       alt="item"
-                      src={`http://localhost:5000/uploads/${userImages[0]}`}
+                      src={userImages[0]} 
                       style={{ width: "100%", height: "200px", objectFit: "cover" }}
                     />
                   ) : (

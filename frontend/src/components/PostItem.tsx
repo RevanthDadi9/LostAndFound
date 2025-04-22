@@ -72,7 +72,12 @@ const PostItem: React.FC = () => {
       for (let i = 0; i < images.length; i++) {
         formData.append("images", images[i]);
       }
+      if (images.length > 5) {
+        alert("You can upload up to 5 images only.");
+        return;
+      }      
     }
+  
 
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/item/create`, formData, {
@@ -221,6 +226,12 @@ const PostItem: React.FC = () => {
                 </p>
               )}
             </div>
+
+            {images &&
+              Array.from(images).map((img, i) => (
+                <p key={i} style={{ fontSize: "12px", color: "#333" }}>{img.name}</p>
+              ))}
+
 
             <Button
               style={{ background: 'linear-gradient(135deg,green, #04befe)', marginTop: 16 }}

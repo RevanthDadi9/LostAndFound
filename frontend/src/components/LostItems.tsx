@@ -102,7 +102,7 @@ const LostItems: React.FC = () => {
                         <img
                           key={i}
                           alt="item"
-                          src={`http://localhost:5000/uploads/${img}`}
+                          src={img}
                           style={{ width: "100%", height: "200px", objectFit: "cover" }}
                         />
                       ))}
@@ -110,7 +110,7 @@ const LostItems: React.FC = () => {
                   ) : userImages.length > 0 ? (
                     <img
                       alt="item"
-                      src={`http://localhost:5000/uploads/${userImages[0]}`}
+                      src={userImages[0]}
                       style={{ width: "100%", height: "200px", objectFit: "cover" }}
                     />
                   ) : (
