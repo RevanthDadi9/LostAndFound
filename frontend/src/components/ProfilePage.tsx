@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Button, Card, message, Spin, Typography } from 'antd';
+import { Form, Input, Button, Card, message, Spin, Typography, Image } from 'antd';
 import axios from 'axios';
 
 interface User {
@@ -13,6 +13,7 @@ interface User {
 const ProfilePage: React.FC = () => {
   const [form] = Form.useForm();
   const [user, setUser] = useState<User | null>(null);
+  const [image, setImage] = React.useState('');
   const [loading, setLoading] = useState<boolean>(true);
   const [msg, setMsg] = useState<boolean>(false);
   const userId = localStorage.getItem("userId");
@@ -22,6 +23,11 @@ const ProfilePage: React.FC = () => {
       try {
         const res = await axios.get<{ userData: User }>(`${import.meta.env.VITE_BACKEND_URL}/user/${userId}`);
         setUser(res.data.userData);
+        if (res.data.userData.img) {
+          setImage(res.data.userData.img);
+        } else {
+          setImage('No Image');
+        }
         form.setFieldsValue(res.data.userData);
       } catch (err) {
         message.error('Failed to load user information');
@@ -49,7 +55,13 @@ const ProfilePage: React.FC = () => {
   if (loading || !user) return <Spin size="large" style={{ display: 'block', margin: '100px auto' }} />;
 
   return (
-    <Card title="User Profile" style={{ maxWidth: 600, margin: '50px auto' }}>
+    <>
+    <Image
+      style={{display: 'block', marginLeft: 500, marginTop: 40, borderRadius: 200}}
+      width={200}
+      src={image}
+    />
+    <Card title="User Profile" style={{ maxWidth: 400, margin: '50px auto' }}>
       <Form
         form={form}
         layout="vertical"
@@ -91,6 +103,7 @@ const ProfilePage: React.FC = () => {
         )}
       </Form>
     </Card>
+    </>
   );
 };
 
