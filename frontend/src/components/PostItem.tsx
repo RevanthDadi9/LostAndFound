@@ -227,12 +227,6 @@ const PostItem: React.FC = () => {
               )}
             </div>
 
-            {images &&
-              Array.from(images).map((img, i) => (
-                <p key={i} style={{ fontSize: "12px", color: "#333" }}>{img.name}</p>
-              ))}
-
-
             <Button
               style={{ background: 'linear-gradient(135deg,green, #04befe)', marginTop: 16 }}
               block

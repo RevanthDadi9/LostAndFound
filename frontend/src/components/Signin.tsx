@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { LockOutlined, LoginOutlined, MailOutlined } from '@ant-design/icons';
-import { Button, Input, Typography } from 'antd';
+import { Button, Input, Spin, Typography } from 'antd';
 const { Title } = Typography;
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -35,10 +35,12 @@ const imgStyle: React.CSSProperties = {
 const Signin: React.FC = () => {
     const { login } = useAuth();
     const { control, handleSubmit } = useForm();
+    const[loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
     const [errorMessage, setErrorMessage] = React.useState('');
 
     const onSubmit = async (data: any) => {
+        setLoading(true);
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/signin`, data);
             const token = response.data.token;
@@ -61,6 +63,8 @@ const Signin: React.FC = () => {
             console.error('Signin failed:', error);
         }
     };
+
+    if (loading) return <Spin style={{ marginLeft: 600, marginTop: 200, alignItems: 'center' }} size='large' />;
 
     return (
         <>

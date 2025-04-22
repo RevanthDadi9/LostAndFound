@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { LockOutlined, LoginOutlined, MailOutlined, UploadOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Input, Typography } from 'antd';
+import { Button, Input, Spin, Typography } from 'antd';
 const { Title } = Typography;
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -35,12 +35,14 @@ const imgStyle: React.CSSProperties = {
 const Signup: React.FC = () => {
     const [image, setImage] = useState<File | null>(null);
     const [fileCount, setFileCount] = useState(0);
-    
+    const [loading, setLoading] = useState<boolean>(false)
+
     const { control, handleSubmit } = useForm();
     const navigate = useNavigate();
     const { login } = useAuth();
 
     const onSubmit = async (formValues: any) => {
+        setLoading(true);
         const formData = new FormData();
 
         Object.entries(formValues).forEach(([key, value]) => {
@@ -74,7 +76,7 @@ const Signup: React.FC = () => {
               console.error('Signup failed:', error);
               alert("Signup failed. Please try again.");
             }
-          }
+        }
           
     };
 
@@ -84,6 +86,9 @@ const Signup: React.FC = () => {
                 setFileCount(event.target.files.length);
             }
     };
+
+    if (loading) return <Spin style={{ marginLeft: 600, marginTop: 200, alignItems: 'center' }} size='large' />;
+
 
     return (
         <>

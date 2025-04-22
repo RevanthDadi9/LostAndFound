@@ -56,11 +56,13 @@ const MyListings: React.FC = () => {
 
   const handleDeleteItem = async (id: number) => {
     try {
-      await axios.delete(`http://localhost:5000/item/delete/${id}`);
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/item/delete/${id}`);
+      setItems((prevItems) => prevItems.filter(item => item._id !== id)); // 👈 update state
     } catch (error) {
       console.error('Error deleting item:', error);
     }
-  }
+  };
+  
 
   if (loading) return <Spin style={{ marginLeft: 600, marginTop: 200, alignItems: 'center' }} size='large' />;
   
@@ -120,7 +122,7 @@ const MyListings: React.FC = () => {
                         <img
                           key={i}
                           alt="item"
-                          src={`http://localhost:5000/uploads/${img}`}
+                          src={img}
                           style={{ width: "100%", height: "200px", objectFit: "cover" }}
                         />
                       ))}
@@ -151,7 +153,7 @@ const MyListings: React.FC = () => {
                     onClick={() => toggleDetails(index)}
                     style={{ paddingLeft: 0, marginTop: 8 }}
                   >
-                    {expandedItems[index] ? <> Show Less <a onClick={() => handleDeleteItem(item._id)}><DeleteOutlined style={{ color: 'red', marginBottom: -6, marginLeft: 80 }} /></a></> : 'More Details'}
+                    {expandedItems[index] ? <> Show Less <a onClick={() => handleDeleteItem(item._id)}><DeleteOutlined style={{ color: 'red', marginBottom: -10, marginLeft: 100 }} /></a></> : 'More Details'}
                   </Button>
 
                 </div>
