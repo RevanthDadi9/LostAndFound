@@ -25,7 +25,7 @@ const FooterComponent: React.FC = () => {
           <Link href="mailto:nagillaganesh45@gmail.com" style={{ background: 'linear-gradient(75deg,rgb(8, 103, 176),rgb(44, 158, 88))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', }}>
             <MailOutlined style={{ fontSize: 18 }} />
           </Link>
-          <Link href="https://github.com/" target="_blank" style={{ background: 'linear-gradient(75deg,rgb(8, 103, 176),rgb(44, 158, 88))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', }}>
+          <Link href="https://github.com/ganeshnagilla/LostAndFound" target="_blank" style={{ background: 'linear-gradient(75deg,rgb(8, 103, 176),rgb(44, 158, 88))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', }}>
             <GithubOutlined style={{ fontSize: 18 }} />
           </Link>
           <Link href="https://linkedin.com/in/" target="_blank" style={{ background: 'linear-gradient(75deg,rgb(8, 103, 176),rgb(44, 158, 88))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', }}>
