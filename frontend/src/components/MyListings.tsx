@@ -4,6 +4,7 @@ import { Button, Card, Typography, Input, Carousel, Space, Spin } from 'antd';
 import CustomArrow from './CustomArrow';
 import { DeleteOutlined } from '@mui/icons-material';
 const { Meta } = Card;
+const { Paragraph } = Typography;
 const { Search } = Input;
 const { Title } = Typography;
 
@@ -57,7 +58,7 @@ const MyListings: React.FC = () => {
   const handleDeleteItem = async (id: number) => {
     try {
       await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/item/delete/${id}`);
-      setItems((prevItems) => prevItems.filter(item => item._id !== id)); // 👈 update state
+      setItems((prevItems) => prevItems.filter(item => item._id !== id));
     } catch (error) {
       console.error('Error deleting item:', error);
     }
@@ -142,8 +143,9 @@ const MyListings: React.FC = () => {
 
                 {expandedItems[index] && (
                   <div style={{ marginTop: '10px' }}>
-                    <Meta description={item.description} />
-                    <Meta description={`Location: ${item.location}`} />
+                      <Meta description={item.description} style={{ marginTop: '10px'}} />
+                      <Meta description={`Location: ${item.location}`} style={{ marginTop: '10px'}} />
+                      <Paragraph copyable style={{ marginTop: '10px'}} >{item.number}</Paragraph>
                   </div>
                 )}
 

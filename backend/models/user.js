@@ -22,7 +22,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "Guest Icon"
     }
-});
+},
+    {timestamps: true}
+);
 
 const User = mongoose.model("User", userSchema);
 

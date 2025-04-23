@@ -118,10 +118,10 @@ const FoundItems: React.FC = () => {
 
                 {expandedItems[index] && (
                   <div style={{ marginTop: '10px' }}>
-                    <Meta description={item.description} />
-                    <Meta description={`Location: ${item.location}`} />
-                    <Paragraph copyable>{item.number}</Paragraph>
-                  </div>
+                    <Meta description={item.description} style={{ marginTop: '10px'}} />
+                    <Meta description={`Location: ${item.location}`} style={{ marginTop: '10px'}} />
+                    <Paragraph copyable style={{ marginTop: '10px'}} >{item.number}</Paragraph>
+                </div>
                 )}
 
                 <Button
