@@ -19,6 +19,7 @@ import axios from 'axios';
 import postItemImage from '../assets/postitem.jpg';
 const { Title } = Typography;
 import dayjs from "dayjs";
+import { Box } from '@mui/material';
 
 
 const boxStyle: React.CSSProperties = {
@@ -46,6 +47,8 @@ const imgStyle: React.CSSProperties = {
 
 const PostItem: React.FC = () => {
   const [images, setImages] = useState<FileList | null>(null);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+
   const [fileCount, setFileCount] = useState(0);
 
   const { control, handleSubmit } = useForm();
@@ -96,10 +99,13 @@ const PostItem: React.FC = () => {
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      setImages(event.target.files);
-      setFileCount(event.target.files.length)
+        const selectedFiles = event.target.files;
+        setImages(selectedFiles);
+
+        const previews = Array.from(selectedFiles).map(file => URL.createObjectURL(file));
+        setImagePreviews(previews);
     }
-  };
+};
 
 
   return (
@@ -204,11 +210,19 @@ const PostItem: React.FC = () => {
                 style={{ display: "none" }}
               />
 
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, mt: 2 }}>
+                {imagePreviews.map((src, idx) => (
+                    <img key={idx} src={src} alt={`preview-${idx}`} width="100" height="100" style={{ fontFamily: "'Chinese Quote', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'", objectFit: 'cover', borderRadius: '8px' }} />
+                ))}
+            </Box>
+
+
               <label
                 htmlFor="fileInput"
                 style={{
                   display: "inline-block",
                   padding: "10px 20px",
+                  marginTop: "20px",
                   background: "linear-gradient(115deg, blue, rgb(24, 173, 91))",
                   borderRadius: "10px",
                   color: "#fff",

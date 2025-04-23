@@ -215,7 +215,7 @@ function Navbar() {
                     <NavButton to="/contact" onClick={handleCloseNavMenu}>Contact</NavButton>
                     <Tooltip title="Open settings">
                       <IconButton onClick={handleOpenUserMenu} sx={{ marginLeft: 18, p: 0 }}>
-                        <Avatar alt="Remy Sharp" src={`${image}`} />
+                        <Avatar alt="User Icon" src={`${image}`} />
                       </IconButton>
                     </Tooltip>
                   </>

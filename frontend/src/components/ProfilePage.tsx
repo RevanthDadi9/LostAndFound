@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Button, Card, message, Spin, Typography, Image } from 'antd';
 import axios from 'axios';
+import defaultUserIcon from "../assets/defaultUserImage.png"
 
 interface User {
   _id: string;
@@ -26,7 +27,7 @@ const ProfilePage: React.FC = () => {
         if (res.data.userData.img) {
           setImage(res.data.userData.img);
         } else {
-          setImage('No Image');
+          setImage(defaultUserIcon);
         }
         form.setFieldsValue(res.data.userData);
       } catch (err) {

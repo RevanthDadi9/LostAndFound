@@ -40,7 +40,6 @@ const Signin: React.FC = () => {
     const [errorMessage, setErrorMessage] = React.useState('');
 
     const onSubmit = async (data: any) => {
-        setLoading(true);
         try {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/user/signin`, data);
             const token = response.data.token;
@@ -52,6 +51,8 @@ const Signin: React.FC = () => {
                 setErrorMessage("Incorrect details, try again.");
                 return;
             }
+
+            setLoading(true);
 
             localStorage.setItem("authToken", token);
             localStorage.setItem("userId", userId);

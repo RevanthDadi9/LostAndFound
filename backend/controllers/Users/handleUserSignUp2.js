@@ -24,7 +24,7 @@ const handleUserSignUp2 = async (req, res) => {
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(userData.password, salt);
 
-        const imageUrl = req.file?.path || "No Image";
+        const imageUrl = req.file?.path || "https://icon2.cleanpng.com/20190702/jv/kisspng-computer-icons-portable-network-graphics-avatar-tr-clip-directory-professional-transparent-amp-png-1713882841073.webp";
 
         const user = new User({ ...userData, password: hashedPassword, img: imageUrl });
         await user.save();
