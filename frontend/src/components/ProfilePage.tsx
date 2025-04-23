@@ -42,7 +42,7 @@ const ProfilePage: React.FC = () => {
 
   const handleUpdate = async (values: any) => {
     try {
-      await axios.put(`http://localhost:5000/user/update/${userId}`, values);
+      await axios.put(`${import.meta.env.VITE_BACKEND_URL}/user/update/${userId}`, values);
       message.success('User information updated successfully!');
     } catch (error) {
       message.error('Failed to update user information.');
