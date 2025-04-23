@@ -13,6 +13,7 @@ import {
   Typography,
   Flex,
   Select,
+  Spin,
 } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -48,6 +49,7 @@ const imgStyle: React.CSSProperties = {
 const PostItem: React.FC = () => {
   const [images, setImages] = useState<FileList | null>(null);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [fileCount, setFileCount] = useState(0);
 
@@ -56,6 +58,7 @@ const PostItem: React.FC = () => {
 
 
   const onSubmit = async (formValues: any) => {
+    setLoading(true);
     const userId = localStorage.getItem("userId");
     const formData = new FormData();
 
@@ -107,6 +110,9 @@ const PostItem: React.FC = () => {
         setImagePreviews(previews);
     }
 };
+
+if (loading) return <Spin style={{ marginLeft: 600, marginTop: 200, alignItems: 'center' }} size='large' />;
+
 
 
   return (
