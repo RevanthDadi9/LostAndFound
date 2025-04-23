@@ -101,6 +101,7 @@ const PostItem: React.FC = () => {
     if (event.target.files) {
         const selectedFiles = event.target.files;
         setImages(selectedFiles);
+        setFileCount(selectedFiles.length);
 
         const previews = Array.from(selectedFiles).map(file => URL.createObjectURL(file));
         setImagePreviews(previews);
