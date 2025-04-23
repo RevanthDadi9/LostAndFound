@@ -76,6 +76,7 @@ const Signup: React.FC = () => {
               console.error('Signup failed:', error);
               alert("Signup failed. Please try again.");
             }
+            setLoading(false);
         }
           
     };

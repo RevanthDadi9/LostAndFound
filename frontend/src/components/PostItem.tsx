@@ -96,6 +96,7 @@ const PostItem: React.FC = () => {
       navigate('/mylistings');
     } catch (error) {
       console.error('Error creating item:', error);
+      setLoading(false);
     }
   };
 
