@@ -14,8 +14,9 @@ const generateWebToken = (id) => {
 
 const handleUserSignIn = async (req, res) => {
     const { email, password } = req.body;
+    const normalizedEmail = email.toLowerCase();
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: normalizedEmail });
 
     if(!user){
         return res.send({ message: "Email not found"});

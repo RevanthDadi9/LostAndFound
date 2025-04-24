@@ -15,7 +15,10 @@ const generateWebToken = (id) => {
 const handleUserSignUp2 = async (req, res) => {
     try {
         const userData = req.body;
-        const existingUser = await User.findOne({ email: userData.email });
+        const userEmail = userData.email;
+        const normalizedEmail = userEmail.toLowerCase();
+        userData.email = normalizedEmail;
+        const existingUser = await User.findOne({ email: normalizedEmail });
 
         if (existingUser) {
             return res.status(409).send({ message: "Email already in use" });
