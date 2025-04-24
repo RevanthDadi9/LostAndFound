@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Button, Card, Typography, Input, Carousel, Space, Spin } from 'antd';
 import CustomArrow from './CustomArrow';
 import { DeleteOutlined } from '@mui/icons-material';
-import { red } from '@mui/material/colors';
 const { Meta } = Card;
 const { Paragraph } = Typography;
 const { Search } = Input;
