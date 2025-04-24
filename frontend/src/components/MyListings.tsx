@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Button, Card, Typography, Input, Carousel, Space, Spin } from 'antd';
 import CustomArrow from './CustomArrow';
 import { DeleteOutlined } from '@mui/icons-material';
+import { red } from '@mui/material/colors';
 const { Meta } = Card;
 const { Paragraph } = Typography;
 const { Search } = Input;
@@ -84,6 +85,9 @@ const MyListings: React.FC = () => {
               allowClear
             />
           </Space>
+          <Typography style={{ fontSize: '20px', textAlign: 'center', background: 'linear-gradient(75deg,rgb(8, 103, 176),rgb(44, 158, 88))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'}}>
+            No results found
+          </Typography>
         </>
       ) : (
         <>
@@ -92,7 +96,7 @@ const MyListings: React.FC = () => {
           </Title>
           <Space direction="vertical" style={{ marginBottom: 28, marginTop: 16, marginLeft: 440, width: '30%' }}>
             <Search
-              placeholder="Search items..."
+              placeholder="Search by item, description and location..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               enterButton
@@ -139,11 +143,12 @@ const MyListings: React.FC = () => {
                   )
                 }
               >
-                <Meta title={item.name} description={item.date} />
+                <Meta title={item.name} description={item.type} />
 
                 {expandedItems[index] && (
                   <div style={{ marginTop: '10px' }}>
                       <Meta description={item.description} style={{ marginTop: '10px'}} />
+                      <Meta description={item.date} style={{ marginTop: '10px'}} />
                       <Meta description={`Location: ${item.location}`} style={{ marginTop: '10px'}} />
                       <Paragraph copyable style={{ marginTop: '10px'}} >{item.number}</Paragraph>
                   </div>
