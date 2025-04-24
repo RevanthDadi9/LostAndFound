@@ -45,14 +45,11 @@ const ProfilePage: React.FC = () => {
       await axios.put(`${import.meta.env.VITE_BACKEND_URL}/user/update/${userId}`, values);
       localStorage.setItem("userName", values.firstname);
       message.success('User information updated successfully!');
+      setMsg(true);
     } catch (error) {
       message.error('Failed to update user information.');
     }
   };
-
-  const handleButtonClick = async () => {
-    setMsg(true)
-  }
 
   if (loading || !user) return <Spin size="large" style={{ display: 'block', margin: '100px auto' }} />;
 
@@ -73,15 +70,40 @@ const ProfilePage: React.FC = () => {
         <Form.Item
           label="First Name"
           name="firstname"
-          rules={[{ required: true, message: 'Please input your first name!' }]}
+          rules={[
+            { required: true, message: 'Please input your first name!' },
+            {
+              validator(_, value) {
+                if (!value || value.trim() === '') {
+                  return Promise.reject('This field cannot be empty or just spaces');
+                }
+                if (!/^[a-zA-Z ]+$/.test(value)) {
+                  return Promise.reject('Only letters and spaces are allowed');
+                }
+                return Promise.resolve();
+              }
+            }
+          ]}
         >
           <Input />
         </Form.Item>
-
         <Form.Item
           label="Last Name"
           name="lastname"
-          rules={[{ required: true, message: 'Please input your last name!' }]}
+          rules={[
+            { required: true, message: 'Please input your last name!' },
+            {
+              validator(_, value) {
+                if (!value || value.trim() === '') {
+                  return Promise.reject('This field cannot be empty or just spaces');
+                }
+                if (!/^[a-zA-Z ]+$/.test(value)) {
+                  return Promise.reject('Only letters and spaces are allowed');
+                }
+                return Promise.resolve();
+              }
+            }
+          ]}
         >
           <Input />
         </Form.Item>
@@ -95,7 +117,7 @@ const ProfilePage: React.FC = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" onClick={handleButtonClick}>
+          <Button type="primary" htmlType="submit">
             Update Info
           </Button>
         </Form.Item>

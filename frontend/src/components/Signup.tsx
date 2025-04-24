@@ -32,6 +32,21 @@ const imgStyle: React.CSSProperties = {
   paddingBottom: 20
 };
 
+const handleAlphabeticChange = (onChange: (...event: any[]) => void) =>
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const inputValue = e.target.value;
+      const reg = /^[a-zA-Z ]*$/;
+      if (reg.test(inputValue)) {
+        if (inputValue.trim() !== '') {
+          onChange(inputValue);
+        } else {
+          onChange('');
+        }
+      }
+  };
+  
+  
+
 const Signup: React.FC = () => {
     const [image, setImage] = useState<File | null>(null);
     const [fileCount, setFileCount] = useState(0);
@@ -101,9 +116,27 @@ const Signup: React.FC = () => {
                     <Controller
                         name="firstname"
                         control={control}
-                        rules={{ required: true }}
-                        render={({ field }) => (
-                            <Input {...field} prefix={<UserOutlined />} placeholder="First Name" />
+                        rules={{ 
+                            required: 'First name is required in alphabetic characters only(a-z, A-Z)',
+                            pattern: {
+                            value: /^[a-zA-Z ]+$/,
+                            message: 'Only letters and spaces are allowed',
+                            },
+                            validate: (value) => value.trim() !== '' || 'Only spaces are not allowed'
+                        }}
+                        render={({ field, fieldState }) => (
+                            <>
+                            <Input 
+                                {...field} 
+                                prefix={<UserOutlined />}  
+                                allowClear 
+                                placeholder="First Name"
+                                onChange={handleAlphabeticChange(field.onChange)} 
+                            />
+                            {fieldState.error && (
+                                <span style={{ color: 'red', fontSize: '12px', marginLeft: '5px', fontFamily:"'Chinese Quote', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'" }}>{fieldState.error.message}</span>
+                            )}
+                            </>
                         )}
                     />
                 </div>
@@ -111,9 +144,27 @@ const Signup: React.FC = () => {
                     <Controller
                         name="lastname"
                         control={control}
-                        rules={{ required: true }}
-                        render={({ field }) => (
-                            <Input {...field} prefix={<UserOutlined />} placeholder="Last Name" />
+                        rules={{ 
+                            required: 'Last name is required in alphabetic characters only(a-z, A-Z)',
+                            pattern: {
+                            value: /^[a-zA-Z ]+$/,
+                            message: 'Only letters and spaces are allowed',
+                            },
+                            validate: (value) => value.trim() !== '' || 'Only spaces are not allowed'
+                        }}
+                        render={({ field, fieldState }) => (
+                            <>
+                            <Input 
+                                {...field} 
+                                prefix={<UserOutlined />}  
+                                allowClear 
+                                placeholder="Last Name"
+                                onChange={handleAlphabeticChange(field.onChange)} 
+                            />
+                            {fieldState.error && (
+                                <span style={{ color: 'red', fontSize: '12px', marginLeft: '5px', fontFamily:"'Chinese Quote', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'" }}>{fieldState.error.message}</span>
+                            )}
+                            </>
                         )}
                     />
                 </div>
@@ -123,7 +174,7 @@ const Signup: React.FC = () => {
                         control={control}
                         rules={{ required: true }}
                         render={({ field }) => (
-                            <Input {...field} prefix={<MailOutlined />} placeholder="Email" type="email" />
+                            <Input {...field} prefix={<MailOutlined />} allowClear placeholder="Email" type="email" />
                         )}
                     />
                 </div>
@@ -133,7 +184,7 @@ const Signup: React.FC = () => {
                         control={control}
                         rules={{ required: true }}
                         render={({ field }) => (
-                            <Input.Password {...field} prefix={<LockOutlined />} placeholder="Password" />
+                            <Input.Password {...field} allowClear prefix={<LockOutlined />} placeholder="Password" />
                         )}
                     />
                 </div>
