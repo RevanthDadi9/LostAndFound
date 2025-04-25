@@ -77,10 +77,15 @@ function Navbar() {
   React.useEffect(() => {
     const fetchDetails = async () => {
       const userId = localStorage.getItem("userId");
+      const userImage = localStorage.getItem("userImage");
       if (!userId) return;
       try {
         const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/${userId}`);
-        setImage(response.data.userData.img);
+        if(userImage){
+          setImage(userImage);
+        }else{
+          setImage(response.data.userData.img);
+        }
       } catch (error) {
         console.error('Error fetching details:', error);
       }

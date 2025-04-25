@@ -12,7 +12,7 @@ const router = express.Router();
 router.post("/signup", uploadSingle.single("image"), handleUserSignUp2);
 router.post("/upload", uploadSingle.single("image"), uploadImage);
 router.post("/signin", handleUserSignIn);
-router.put("/update/:id", handleUserUpdateInfo);
+router.put("/update/:id", uploadSingle.single("image"), handleUserUpdateInfo);
 router.get("/", handleGetUserDetails);
 router.get("/:id", handleGetUserDetailsById);
 
