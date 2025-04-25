@@ -75,9 +75,11 @@ const ProfilePage: React.FC = () => {
             {
               validator(_, value) {
                 if (!value || value.trim() === '') {
+                  setMsg(false);
                   return Promise.reject('This field cannot be empty or just spaces');
                 }
                 if (!/^[a-zA-Z ]+$/.test(value)) {
+                  setMsg(false);
                   return Promise.reject('Only letters and spaces are allowed');
                 }
                 return Promise.resolve();
@@ -85,7 +87,7 @@ const ProfilePage: React.FC = () => {
             }
           ]}
         >
-          <Input />
+          <Input onFocus={() => setMsg(false)} />
         </Form.Item>
         <Form.Item
           label="Last Name"
@@ -95,9 +97,11 @@ const ProfilePage: React.FC = () => {
             {
               validator(_, value) {
                 if (!value || value.trim() === '') {
+                  setMsg(false);
                   return Promise.reject('This field cannot be empty or just spaces');
                 }
                 if (!/^[a-zA-Z ]+$/.test(value)) {
+                  setMsg(false);
                   return Promise.reject('Only letters and spaces are allowed');
                 }
                 return Promise.resolve();
@@ -105,7 +109,7 @@ const ProfilePage: React.FC = () => {
             }
           ]}
         >
-          <Input />
+          <Input onFocus={() => setMsg(false)} />
         </Form.Item>
 
         <Form.Item
