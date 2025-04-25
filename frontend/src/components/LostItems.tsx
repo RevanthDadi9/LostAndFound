@@ -64,12 +64,12 @@ const LostItems: React.FC = () => {
         </Title>
       ) : (
         <>
-          <Title level={3} style={{ background: 'linear-gradient(75deg,rgb(8, 103, 176),rgb(44, 158, 88))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', display: 'inline-block', marginTop: 16, marginLeft: 380 }}>
+          <Title level={3} style={{ background: 'linear-gradient(75deg,rgb(8, 103, 176),rgb(44, 158, 88))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', display: 'inline-block', marginTop: 16, marginLeft: 390 }}>
             {title}
           </Title>
-          <Space direction="vertical" style={{ marginBottom: 28, marginTop: 16, marginLeft: 440, width: '30%' }}>
+          <Space direction="vertical" style={{ marginBottom: 28, marginTop: 16, marginLeft: 440, width: '33%' }}>
             <Search
-              placeholder="Search lost items..."
+              placeholder="Search lost items by item, description and location..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               enterButton
