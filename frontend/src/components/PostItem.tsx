@@ -5,6 +5,8 @@ import {
   FileTextOutlined,
   InboxOutlined,
   PhoneOutlined,
+  PlusCircleOutlined,
+  UploadOutlined,
 } from '@ant-design/icons';
 import {
   Button,
@@ -21,6 +23,11 @@ import postItemImage from '../assets/postitem.jpg';
 const { Title } = Typography;
 import dayjs from "dayjs";
 import { Box } from '@mui/material';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+dayjs.extend(customParseFormat);
+
+const dateFormat = 'DD-MM-YYYY';
 
 
 const boxStyle: React.CSSProperties = {
@@ -50,6 +57,7 @@ const PostItem: React.FC = () => {
   const [images, setImages] = useState<FileList | null>(null);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [warningMsg, setWarningMsg] = useState<boolean>(false);
 
   const [fileCount, setFileCount] = useState(0);
 
@@ -64,7 +72,7 @@ const PostItem: React.FC = () => {
 
     Object.entries(formValues).forEach(([key, value]) => {
       if (dayjs.isDayjs(value)) {
-        formData.append(key, value.format("YYYY-MM-DD"));
+        formData.append(key, value.format("DD-MM-YYYY"));
       } else {
         formData.append(key, value !== undefined && value !== null ? String(value) : "");
       }
@@ -79,6 +87,7 @@ const PostItem: React.FC = () => {
         formData.append("images", images[i]);
       }
       if (images.length > 5) {
+        setLoading(false);
         alert("You can upload up to 5 images only.");
         return;
       }      
@@ -95,6 +104,8 @@ const PostItem: React.FC = () => {
       console.log(response.data);
       navigate('/mylistings');
     } catch (error) {
+      alert("Please fill valid details!")
+      setWarningMsg(true);
       console.error('Error creating item:', error);
       setLoading(false);
     }
@@ -102,6 +113,7 @@ const PostItem: React.FC = () => {
 
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setWarningMsg(false);
     if (event.target.files) {
         const selectedFiles = event.target.files;
         setImages(selectedFiles);
@@ -125,22 +137,11 @@ if (loading) return <Spin style={{ marginLeft: 600, marginTop: 200, alignItems: 
         <Flex style={containerStyle}>
           <form onSubmit={handleSubmit(onSubmit)} style={{ maxWidth: 360 }}>
 
-            <div style={{ marginBottom: 16 }}>
-              <Controller
-                name="name"
-                control={control}
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <Input {...field} prefix={<InboxOutlined />} placeholder="Item Name" />
-                )}
-              />
-            </div>
-
-            <div style={{ marginBottom: 16 }}>
+          <div style={{ marginBottom: 16 }}>
               <Controller
                 name="type"
                 control={control}
-                rules={{ required: true }}
+                rules={{ required: false }}
                 render={({ field }) => (
                   <Select
                     {...field}
@@ -159,11 +160,11 @@ if (loading) return <Spin style={{ marginLeft: 600, marginTop: 200, alignItems: 
 
             <div style={{ marginBottom: 16 }}>
               <Controller
-                name="description"
+                name="name"
                 control={control}
-                rules={{ required: true }}
+                rules={{ required: false }}
                 render={({ field }) => (
-                  <Input {...field} prefix={<FileTextOutlined />} placeholder="Description" />
+                  <Input {...field} prefix={<InboxOutlined />} allowClear placeholder="Item Name" />
                 )}
               />
             </div>
@@ -172,38 +173,48 @@ if (loading) return <Spin style={{ marginLeft: 600, marginTop: 200, alignItems: 
               <Controller
                 name="date"
                 control={control}
-                rules={{ required: true }}
+                rules={{ required: false }}
                 render={({ field }) => (
                   <DatePicker
                     {...field}
-                    format="YYYY-MM-DD"
+                    format="DD-MM-YYYY"
+                    minDate={dayjs('01-01-2020', dateFormat)}
+                    maxDate={dayjs()}
                     onChange={(date) => field.onChange(date)}
                   />
                 )}
               />
-
-
-
             </div>
 
             <div style={{ marginBottom: 16 }}>
               <Controller
                 name="location"
                 control={control}
-                rules={{ required: true }}
+                rules={{ required: false }}
                 render={({ field }) => (
-                  <Input {...field} prefix={<EnvironmentOutlined />} placeholder="Location" />
+                  <Input {...field} prefix={<EnvironmentOutlined />} allowClear placeholder="Location" />
                 )}
               />
             </div>
 
             <div style={{ marginBottom: 16 }}>
               <Controller
+                name="description"
+                control={control}
+                rules={{ required: false }}
+                render={({ field }) => (
+                  <Input {...field} prefix={<FileTextOutlined />} allowClear placeholder="Description" />
+                )}
+              />
+            </div>
+
+            <div style={{ marginBottom: -10 }}>
+              <Controller
                 name="number"
                 control={control}
-                rules={{ required: true }}
+                rules={{ required: false }}
                 render={({ field }) => (
-                  <Input {...field} prefix={<PhoneOutlined />} placeholder="Contact" />
+                  <Input {...field} prefix={<PhoneOutlined />} maxLength={10} allowClear placeholder="Contact" />
                 )}
               />
             </div>
@@ -229,8 +240,9 @@ if (loading) return <Spin style={{ marginLeft: 600, marginTop: 200, alignItems: 
                 htmlFor="fileInput"
                 style={{
                   display: "inline-block",
-                  padding: "10px 20px",
-                  marginTop: "20px",
+                  fontSize: '12px',
+                  padding: "6px 16px",
+                  marginTop: "10px",
                   background: "linear-gradient(115deg, blue, rgb(24, 173, 91))",
                   borderRadius: "10px",
                   color: "#fff",
@@ -239,11 +251,25 @@ if (loading) return <Spin style={{ marginLeft: 600, marginTop: 200, alignItems: 
                   transition: "background .2s ease-in-out",
                 }}
               >
-                Choose Files
+                Upload Images <UploadOutlined />
               </label>
 
+              {warningMsg && (
+                <span style={{
+                  display: "inline-block",
+                  fontSize: '12px',
+                  fontWeight: 500,
+                  marginTop: "20px",
+                  color: '#c0392b',
+                  fontFamily: "'Chinese Quote', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
+                }}>
+                  Please upload a valid image (JPG, JPEG or PNG)</span>
+              )
+
+              }
+
               {fileCount > 0 && (
-                <p style={{ marginTop: "10px", color: "green", fontFamily: "'Chinese Quote', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'", }}>
+                <p style={{ marginTop: "10px", fontSize: '14px', color: "green", fontFamily: "'Chinese Quote', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'", }}>
                   {fileCount} file{fileCount > 1 ? "s" : ""} uploaded.
                 </p>
               )}
@@ -255,7 +281,7 @@ if (loading) return <Spin style={{ marginLeft: 600, marginTop: 200, alignItems: 
               type="primary"
               htmlType="submit"
             >
-              Create Post
+              Create Post<PlusCircleOutlined style={{ marginTop: 2 }} />
             </Button>
           </form>
         </Flex>
