@@ -56,9 +56,11 @@ const MyListings: React.FC = () => {
   );
 
   const handleDeleteItem = async (id: number) => {
+    setLoading(true);
     try {
       await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/item/delete/${id}`);
       setItems((prevItems) => prevItems.filter(item => item._id !== id));
+      setLoading(false);
     } catch (error) {
       console.error('Error deleting item:', error);
     }
