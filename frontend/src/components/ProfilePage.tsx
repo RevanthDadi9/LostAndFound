@@ -21,6 +21,7 @@ const ProfilePage: React.FC = () => {
   const [fileCount, setFileCount] = useState(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [msg, setMsg] = useState<boolean>(false);
+  const [uploadMsg, setUploadMsg] = useState<boolean>(false);
   const userId = localStorage.getItem("userId");
 
   const { setUserImage } = useAuth();
@@ -89,6 +90,7 @@ const ProfilePage: React.FC = () => {
     if (event.target.files && event.target.files[0]) {
       setUploadImage(event.target.files[0]);
       setFileCount(event.target.files.length);
+      setUploadMsg(true);
     }
   };
 
@@ -117,10 +119,12 @@ const ProfilePage: React.FC = () => {
                 validator(_, value) {
                   if (!value || value.trim() === '') {
                     setMsg(false);
+                    setUploadMsg(false);
                     return Promise.reject('This field cannot be empty or just spaces');
                   }
                   if (!/^[a-zA-Z ]+$/.test(value)) {
                     setMsg(false);
+                    setUploadMsg(false);
                     return Promise.reject('Only letters and spaces are allowed');
                   }
                   return Promise.resolve();
@@ -128,7 +132,10 @@ const ProfilePage: React.FC = () => {
               }
             ]}
           >
-            <Input onFocus={() => setMsg(false)} />
+            <Input onFocus={() => {
+              setMsg(false);
+              setUploadMsg(false);
+              }} />
           </Form.Item>
           <Form.Item
             label="Last Name"
@@ -139,10 +146,12 @@ const ProfilePage: React.FC = () => {
                 validator(_, value) {
                   if (!value || value.trim() === '') {
                     setMsg(false);
+                    setUploadMsg(false);
                     return Promise.reject('This field cannot be empty or just spaces');
                   }
                   if (!/^[a-zA-Z ]+$/.test(value)) {
                     setMsg(false);
+                    setUploadMsg(false);
                     return Promise.reject('Only letters and spaces are allowed');
                   }
                   return Promise.resolve();
@@ -185,12 +194,15 @@ const ProfilePage: React.FC = () => {
                   fontFamily: "'Chinese Quote', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
                   transition: "background .2s ease-in-out",
                 }}
-                onClick={() => setMsg(false)}
+                onClick={() => {
+                  setMsg(false);
+                  setUploadMsg(false);
+                }}
               >
                 Upload Image <UploadOutlined />
               </label>
 
-              {fileCount > 0 && msg && (
+              {fileCount > 0 && uploadMsg && (
                 <p style={{ fontSize: '12px', marginTop: "2px", color: "green", fontFamily: "'Chinese Quote', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'" }}>
                   Image uploaded.
                 </p>
