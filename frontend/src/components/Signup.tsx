@@ -82,7 +82,7 @@ const Signup: React.FC = () => {
             localStorage.setItem("userId", userId);
             localStorage.setItem("userName", userName);
             localStorage.setItem("userImage", userImage);
-            login();
+            login(userImage, userName);
             navigate('/');
         } catch (error: any) {
             if (error.response && error.response.status === 409) {

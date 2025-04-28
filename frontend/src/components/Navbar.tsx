@@ -37,9 +37,9 @@ const settings = ['Profile', 'Dashboard', 'Logout'];
 
 function Navbar() {
 
-  const [image, setImage] = React.useState('');
-
   const { isAuthenticated, logout } = useAuth();
+
+  const { userImage } = useAuth();
 
   const handleLogout = () => {
     navigate("/")
@@ -77,15 +77,9 @@ function Navbar() {
   React.useEffect(() => {
     const fetchDetails = async () => {
       const userId = localStorage.getItem("userId");
-      const userImage = localStorage.getItem("userImage");
       if (!userId) return;
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/${userId}`);
-        if(userImage){
-          setImage(userImage);
-        }else{
-          setImage(response.data.userData.img);
-        }
+        await axios.get(`${import.meta.env.VITE_BACKEND_URL}/user/${userId}`);
       } catch (error) {
         console.error('Error fetching details:', error);
       }
@@ -220,7 +214,7 @@ function Navbar() {
                     <NavButton to="/contact" onClick={handleCloseNavMenu}>Contact</NavButton>
                     <Tooltip title="Open settings">
                       <IconButton onClick={handleOpenUserMenu} sx={{ marginLeft: 18, p: 0 }}>
-                        <Avatar alt="User Icon" src={`${image}`} />
+                        <Avatar alt="User Icon" src={`${userImage}`} />
                       </IconButton>
                     </Tooltip>
                   </>
