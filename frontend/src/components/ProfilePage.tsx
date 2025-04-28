@@ -3,6 +3,7 @@ import { Form, Input, Button, Card, message, Spin, Typography, Image } from 'ant
 import axios from 'axios';
 import defaultUserIcon from "../assets/defaultUserImage.png"
 import { UploadOutlined } from '@ant-design/icons';
+import { useAuth } from '../context/authContext';
 
 interface User {
   _id: string;
@@ -21,6 +22,9 @@ const ProfilePage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [msg, setMsg] = useState<boolean>(false);
   const userId = localStorage.getItem("userId");
+
+  const { setUserImage } = useAuth();
+
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -66,10 +70,12 @@ const ProfilePage: React.FC = () => {
 
       if (response.data.userImage) {
         setImage(response.data.userImage);
+        setUserImage(response.data.userImage)
       }
       
       localStorage.setItem("userName", values.firstname);
       localStorage.setItem("userImage", response.data.userImage);
+      setUserImage(response.data.userImage);
       setLoading(false);
       message.success("User information updated successfully!");
       setMsg(true);
@@ -179,11 +185,12 @@ const ProfilePage: React.FC = () => {
                   fontFamily: "'Chinese Quote', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
                   transition: "background .2s ease-in-out",
                 }}
+                onClick={() => setMsg(false)}
               >
                 Upload Image <UploadOutlined />
               </label>
 
-              {fileCount > 0 && (
+              {fileCount > 0 && msg && (
                 <p style={{ fontSize: '12px', marginTop: "2px", color: "green", fontFamily: "'Chinese Quote', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'" }}>
                   Image uploaded.
                 </p>

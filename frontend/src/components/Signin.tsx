@@ -58,7 +58,7 @@ const Signin: React.FC = () => {
             localStorage.setItem("userId", userId);
             localStorage.setItem("userName", userName);
             localStorage.setItem("userImage", userImage);
-            login();
+            login(userImage, userName);
             navigate('/');
         } catch (error) {
             console.error('Signin failed:', error);
