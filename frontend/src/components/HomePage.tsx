@@ -32,51 +32,72 @@ const useStyle = createStyles(({ prefixCls, css }) => ({
   `,
 }));
 
-const landingPageStyle: React.CSSProperties = {
-  padding: 100,
-  width: 1056,
-  height: 318,
-  backgroundImage: `url(${BackgroundImage})`,
-  backgroundSize: 'cover',
-  backgroundRepeat: 'no-repeat',
-  backgroundPosition: 'center',
-  overflow: 'hidden',
-};
-
-const imgStyle: React.CSSProperties = {
-  display: 'block',
-  width: 203,
-  marginTop: 40
-};
-
 const HomePage: React.FC = () => {
-
   const { styles } = useStyle();
+  const navigate = useNavigate();
 
   const getUserId = () => {
     return localStorage.getItem("userId");
-  }
+  };
 
-  const navigate = useNavigate();
-  let isUserLoggedIn: boolean = false
-
-  getUserId() ? isUserLoggedIn = true : isUserLoggedIn = false;
+  let isUserLoggedIn: boolean = !!getUserId();
 
   const handleGetStarted = () => {
     isUserLoggedIn ? navigate("/postitem") : navigate("/signup");
   }
 
   return (
-    <div style={landingPageStyle}>
-      <Flex justify="space-between">
+    <div style={{
+      padding: '2rem',
+      width: '95%',
+      minHeight:  window.innerWidth < 768 ? 'calc(100vh - 64px)': 'calc(85vh - 64px)',
+      backgroundImage: `url(${BackgroundImage})`,
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}>
+      <Flex 
+        justify="space-between" 
+        align="center"
+        style={{ 
+          width: '100%',
+          marginLeft: window.innerWidth < 768 ? '' : 140,
+          maxWidth: '1200px',
+          flexDirection: window.innerWidth < 768 ? 'column' : 'row',
+          gap: '2rem'
+        }}
+      >
         <img
-          alt="avatar"
+          alt="logo"
           src={LostAndFoundImage}
-          style={imgStyle}
+          style={{ 
+            width: 203,
+            maxWidth: '300px',
+            height: 'auto'
+          }}
         />
-        <Flex vertical align="flex-end" justify="space-between" style={{ marginTop: 40, padding: 32 }}>
-
-          <Typography style={{ background: 'linear-gradient(75deg,rgb(8, 103, 176),rgb(44, 158, 88))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', display: 'inline-block', fontSize: '25px', fontFamily: "'Chinese Quote', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'" }}>
+        <Flex 
+          vertical 
+          align={window.innerWidth < 768 ? 'center' : 'flex-end'} 
+          justify="space-between" 
+          style={{ 
+            padding: '1rem',
+            marginRight: window.innerWidth < 768 ? '' : 140,
+            textAlign: window.innerWidth < 768 ? 'center' : 'right'
+          }}
+        >
+          <Typography style={{ 
+            background: 'linear-gradient(75deg,rgb(8, 103, 176),rgb(44, 158, 88))', 
+            WebkitBackgroundClip: 'text', 
+            WebkitTextFillColor: 'transparent', 
+            display: 'inline-block', 
+            fontSize: 'clamp(1rem, 2.5vw, 1.5rem)',
+            fontFamily: "'Chinese Quote', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
+            lineHeight: '1.5'
+          }}>
             “Find what you've lost. Help others find what they're missing.
             <br />
             One post can bring something valuable back home.”
@@ -86,8 +107,13 @@ const HomePage: React.FC = () => {
               className: styles.linearGradientButton,
             }}
           >
-            <Space>
-              <Button style={{ marginRight: 320 }} type="primary" onClick={handleGetStarted} size="large" icon={<ArrowRightOutlined />} >
+            <Space style={{ marginTop: '2rem' }}>
+              <Button 
+                type="primary" 
+                onClick={handleGetStarted} 
+                size="large" 
+                icon={<ArrowRightOutlined />}
+              >
                 Get Started
               </Button>
             </Space>
@@ -96,8 +122,6 @@ const HomePage: React.FC = () => {
       </Flex>
     </div>
   );
-
 };
 
 export default HomePage;
-

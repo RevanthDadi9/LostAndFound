@@ -10,13 +10,11 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
 import NavButton from './NavButton';
 import { useAuth } from '../context/authContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { SearchOutlined } from '@mui/icons-material';
 import { LoginOutlined } from '@ant-design/icons';
-
 import { CaretDownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Dropdown, Space } from 'antd';
@@ -30,16 +28,13 @@ const titleStyle = {
   textDecoration: 'none',
 }
 
-
-const pages = ['Home', 'Lost', 'Found', 'Post Item', 'My Listings'];
+const pages = ['Home', 'About', 'Lost', 'Found', 'Post Item', 'My Listings', 'Contact'];
 const settings = ['Profile', 'Dashboard', 'Logout'];
 
-
 function Navbar() {
-
   const { isAuthenticated, logout } = useAuth();
-
   const { userImage } = useAuth();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     navigate("/")
@@ -51,9 +46,6 @@ function Navbar() {
     Dashboard: () => navigate('/mylistings'),
     Logout: handleLogout,
   };
-
-  const navigate = useNavigate();
-
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
@@ -73,7 +65,6 @@ function Navbar() {
     setAnchorElUser(null);
   };
 
-
   React.useEffect(() => {
     const fetchDetails = async () => {
       const userId = localStorage.getItem("userId");
@@ -90,7 +81,6 @@ function Navbar() {
     }
   }, [isAuthenticated]);
 
-
   const items: MenuProps['items'] = [
     {
       key: '1',
@@ -106,187 +96,211 @@ function Navbar() {
     },
   ];
 
-
   return (
     <>
-      <AppBar
-        elevation={8}
-        sx={{
-          background: 'linear-gradient(75deg,rgb(8, 103, 176),rgb(44, 158, 88))',
-          transition: 'all 0.3s ease',
-          '&:hover': {
-            boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
-          }
-        }}
-        position="static">
-        <Container maxWidth="xl">
-          <Toolbar disableGutters>
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                ...titleStyle,
-                mr: 2,
-                padding: 1.5,
-                background: "linear-gradient(85deg, rgb(8, 103, 176),rgb(44, 158, 88))",
-                borderRadius: '42px',
-                display: { xs: 'none', md: 'flex' },
+    <AppBar
+      elevation={8}
+      sx={{
+        background: 'linear-gradient(75deg,rgb(8, 103, 176),rgb(44, 158, 88))',
+        transition: 'all 0.3s ease',
+        '&:hover': {
+          boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+        }
+      }}
+      position="static">
+      <Container maxWidth="xl">
+        <Toolbar disableGutters>
+          <Typography
+            variant="h6"
+            noWrap
+            component={Link}
+            to="/"
+            sx={{
+              ...titleStyle,
+              mr: 2,
+              padding: 1.5,
+              background: "linear-gradient(85deg, rgb(8, 103, 176),rgb(44, 158, 88))",
+              borderRadius: '42px',
+              display: { xs: 'none', md: 'flex' },
+            }}
+          >
+            <Typography sx={{ ...titleStyle, color: 'rgb(61, 171, 10)', fontSize: '20px' }}>LOST</Typography>
+            <SearchOutlined style={{ alignItems: 'center', marginTop: 4, marginLeft: 2, marginRight: 6 }} />
+            <Typography sx={{ ...titleStyle, color: 'rgb(12, 76, 125)', fontSize: '20px' }}>FOUND</Typography>
+          </Typography>
 
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenNavMenu}
+              color="inherit"
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: 'block', md: 'none' },
               }}
             >
-              <Typography sx={{ ...titleStyle, color: 'rgb(61, 171, 10)', fontSize: '20px' }}>LOST</Typography>
-              <SearchOutlined style={{ alignItems: 'center', marginTop: 4, marginLeft: 2, marginRight: 6 }} />
-              <Typography sx={{ ...titleStyle, color: 'rgb(12, 76, 125)', fontSize: '20px' }}>FOUND</Typography>
-            </Typography>
-
-            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{ display: { xs: 'block', md: 'none' } }}
-              >
-                {pages.map((page) => (
+              {pages.map((page) => {
+                let route = '';
+                switch(page) {
+                  case 'Home': route = '/'; break;
+                  case 'About': route = '/about'; break;
+                  case 'Lost': route = '/lostitems'; break;
+                  case 'Found': route = '/founditems'; break;
+                  case 'Post Item': route = '/postitem'; break;
+                  case 'My Listings': route = '/mylistings'; break;
+                  case 'Contact': route = '/contact'; break;
+                  default: route = '/';
+                }
+                
+                return (
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
+                    <Link to={route} style={{ textDecoration: 'none', color: 'inherit' }}>
+                      <Typography textAlign="center">{page}</Typography>
+                    </Link>
                   </MenuItem>
-                ))}
-              </Menu>
-            </Box>
-            <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-            <Typography
-              variant="h5"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                mr: 2,
-                display: { xs: 'flex', md: 'none' },
-                flexGrow: 1,
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
-            >
-              LOGO
-            </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              <NavButton to="/" onClick={handleCloseNavMenu}>Home</NavButton>
-              <NavButton to="/about" onClick={handleCloseNavMenu}>About</NavButton>
+                );
+              })}
+            </Menu>
+          </Box>
 
-              {
-                isAuthenticated ? (
-                  <>
-                    <Dropdown menu={{ items }}>
-                      <a onClick={(e) => e.preventDefault()}>
-                        <Space style={{ marginTop: 27.1, letterSpacing: '.15rem', color: 'white', fontSize: '1rem', fontWeight: 500, marginLeft: 16, marginRight: 16, fontFamily: "'Chinese Quote', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'" }}>
-                          BROWSE ITEMS
-                          <CaretDownOutlined />
-                        </Space>
-                      </a>
-                    </Dropdown>
-                    <NavButton to="/postitem" onClick={handleCloseNavMenu}>Post Item</NavButton>
-                    <NavButton to="/mylistings" onClick={handleCloseNavMenu}>My Listings</NavButton>
-                    <NavButton to="/contact" onClick={handleCloseNavMenu}>Contact</NavButton>
-                    <Tooltip title="Open settings">
-                      <IconButton onClick={handleOpenUserMenu} sx={{ marginLeft: 18, p: 0 }}>
-                        <Avatar alt="User Icon" src={`${userImage}`} />
-                      </IconButton>
-                    </Tooltip>
-                  </>
-                ) : (
-                  <>
-                    <NavButton to="/contact" onClick={handleCloseNavMenu}>Contact</NavButton>
-                    <Box
-                      component={Link}
-                      to="/signin"
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        mt: '0px',
-                        ml: '630px',
-                        '&:hover': {
-                          transform: 'scale(1.1)',
-                          transition: '0.3s ease-in-out',
-                          color: '#f0f0f0',
-                        }
+          <Typography
+            variant="h5"
+            noWrap
+            component={Link}
+            to="/"
+            sx={{
+              mr: 2,
+              display: { xs: 'flex', md: 'none' },
+              flexGrow: 1,
+              fontFamily: 'monospace',
+              fontWeight: 700,
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
+            }}
+          >
+            LOST&FOUND
+          </Typography>
+
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            <NavButton to="/" onClick={handleCloseNavMenu}>Home</NavButton>
+            <NavButton to="/about" onClick={handleCloseNavMenu}>About</NavButton>
+
+            {isAuthenticated ? (
+              <>
+                <Dropdown menu={{ items }}>
+                  <a onClick={(e) => e.preventDefault()}>
+                    <Space style={{ 
+                      marginTop: 27.1, 
+                      letterSpacing: '.15rem', 
+                      color: 'white', 
+                      fontSize: '1rem', 
+                      fontWeight: 500, 
+                      marginLeft: 16, 
+                      marginRight: 16, 
+                      fontFamily: "'Chinese Quote', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
+                      cursor: 'pointer'
+                    }}>
+                      BROWSE ITEMS
+                      <CaretDownOutlined />
+                    </Space>
+                  </a>
+                </Dropdown>
+                <NavButton to="/postitem" onClick={handleCloseNavMenu}>Post Item</NavButton>
+                <NavButton to="/mylistings" onClick={handleCloseNavMenu}>My Listings</NavButton>
+                <NavButton to="/contact" onClick={handleCloseNavMenu}>Contact</NavButton>
+              </>
+            ) : (
+              <NavButton to="/contact" onClick={handleCloseNavMenu}>Contact</NavButton>
+            )}
+          </Box>
+
+          <Box sx={{ flexGrow: 0 }}>
+            {isAuthenticated ? (
+              <>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ marginLeft: window.innerWidth < 768 ? 10 : 0, p: 0 }}>
+                    <Avatar alt="User Icon" src={`${userImage}`} />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: '45px' }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {settings.map((setting) => (
+                    <MenuItem
+                      key={setting}
+                      onClick={() => {
+                        handleCloseUserMenu();
+                        const action = settingActions[setting];
+                        if (action) action();
                       }}
                     >
-                      <LoginOutlined
-                        style={{
-                          fontSize: 30,
-                          color: 'white',
-                        }}
-                      />
-                    </Box>
-                  </>
-                )
-              }
-
-            </Box>
-            <Box sx={{ flexGrow: 0 }}>
-              <Menu
-                sx={{ mt: '45px' }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
+                      <Typography textAlign="center">{setting}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </>
+            ) : (
+              <Box
+                component={Link}
+                to="/signin"
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  '&:hover': {
+                    transform: 'scale(1.1)',
+                    transition: '0.3s ease-in-out',
+                    color: '#f0f0f0',
+                  }
                 }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem
-                    key={setting}
-                    onClick={() => {
-                      handleCloseUserMenu();
-                      const action = settingActions[setting];
-                      if (action) action();
-                    }}
-                  >
-                    <Typography sx={{ fontFamily: "'Chinese Quote', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'", textAlign: 'center' }}>{setting}</Typography>
-                  </MenuItem>
-                ))}
-
-              </Menu>
-            </Box>
-          </Toolbar>
-        </Container>
-      </AppBar>
+                <LoginOutlined
+                  style={{
+                    fontSize: 30,
+                    color: 'white',
+                  }}
+                />
+              </Box>
+            )}
+          </Box>
+        </Toolbar>
+      </Container>
+    </AppBar>
     </>
-
   );
 }
-export default Navbar;
 
+export default Navbar;
